@@ -81,9 +81,11 @@ Aşağıdaki dosyaları **bu sırayla** yazacağız; her biri bir öğretim adı
 - **Konu:** lazy vs eager loading, N+1 sorgu problemi (ileride Gün 9 cache ve
   veritabanı optimizasyonu konularında geri döneceğimiz nokta).
 
-### 2.2 Girdi doğrulama
-- `BookRequest` üzerinde `@NotBlank`, `@Size`, `@Min` gibi anotasyonlar.
-- Controller'da `@Valid` — hatalı istekte ne olur, göreceğiz.
+### 2.2 Girdi doğrulama — ✅ Gün 1'de tamamlandı
+`BookRequest` üzerinde `@NotBlank`/`@Min` ve Controller'da `@Valid` Gün 1'de,
+`BookRequest`'i yazarken zaten eklendi ve boş `title` senaryosu Gün 1'de test edilip
+`gun-01.md`'ye işlendi. Gün 2'de tekrar "yeni iş" olarak yazılmayacak; sadece Author/
+Category DTO'larına aynı desen uygulanacak (bkz. 2.5).
 
 ### 2.3 Merkezi hata yönetimi
 - `exception/ResourceNotFoundException.java`
