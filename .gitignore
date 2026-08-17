@@ -23,3 +23,6 @@ dist/
 
 # Docker
 *.log
+
+# Resmi staj defteri sayfalari (yazdirilip imzalanacak, git'e dahil edilmiyor)
+staj-defteri/
