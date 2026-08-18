@@ -5,6 +5,8 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Set;
+
 @Getter
 @Setter
 public class BookRequest {
@@ -17,4 +19,8 @@ public class BookRequest {
 
     @Min(value = 0, message = "publicationYear negatif olamaz")
     private Integer publicationYear;
+
+    private Long authorId;
+
+    private Set<Long> categoryIds;
 }

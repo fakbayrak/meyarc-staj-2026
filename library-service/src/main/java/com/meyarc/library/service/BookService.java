@@ -2,8 +2,8 @@ package com.meyarc.library.service;
 
 import com.meyarc.library.dto.BookRequest;
 import com.meyarc.library.dto.BookResponse;
-
-import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 public interface BookService {
 
@@ -11,7 +11,7 @@ public interface BookService {
 
     BookResponse getById(Long id);
 
-    List<BookResponse> getAll();
+    Page<BookResponse> getAll(Pageable pageable);
 
     BookResponse update(Long id, BookRequest request);
 

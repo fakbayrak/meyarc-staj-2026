@@ -5,11 +5,11 @@ import com.meyarc.library.dto.BookResponse;
 import com.meyarc.library.service.BookService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/books")
@@ -30,8 +30,8 @@ public class BookController {
     }
 
     @GetMapping
-    public List<BookResponse> getAll() {
-        return bookService.getAll();
+    public Page<BookResponse> getAll(Pageable pageable) {
+        return bookService.getAll(pageable);
     }
 
     @PutMapping("/{id}")

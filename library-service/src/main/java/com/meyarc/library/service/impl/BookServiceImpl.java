@@ -2,15 +2,23 @@ package com.meyarc.library.service.impl;
 
 import com.meyarc.library.dto.BookRequest;
 import com.meyarc.library.dto.BookResponse;
+import com.meyarc.library.entity.Author;
 import com.meyarc.library.entity.Book;
+import com.meyarc.library.entity.Category;
+import com.meyarc.library.exception.ResourceNotFoundException;
 import com.meyarc.library.mapper.BookMapper;
+import com.meyarc.library.repository.AuthorRepository;
 import com.meyarc.library.repository.BookRepository;
+import com.meyarc.library.repository.CategoryRepository;
 import com.meyarc.library.service.BookService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -18,11 +26,15 @@ import java.util.List;
 public class BookServiceImpl implements BookService {
 
     private final BookRepository bookRepository;
+    private final AuthorRepository authorRepository;
+    private final CategoryRepository categoryRepository;
     private final BookMapper bookMapper;
 
     @Override
     public BookResponse create(BookRequest request) {
         Book book = bookMapper.toEntity(request);
+        book.setAuthor(resolveAuthor(request.getAuthorId()));
+        book.setCategories(resolveCategories(request.getCategoryIds()));
         Book saved = bookRepository.save(book);
         return bookMapper.toResponse(saved);
     }
@@ -36,11 +48,9 @@ public class BookServiceImpl implements BookService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<BookResponse> getAll() {
-        return bookRepository.findAll()
-                .stream()
-                .map(bookMapper::toResponse)
-                .toList();
+    public Page<BookResponse> getAll(Pageable pageable) {
+        return bookRepository.findAll(pageable)
+                .map(bookMapper::toResponse);
     }
 
     @Override
@@ -49,6 +59,8 @@ public class BookServiceImpl implements BookService {
         book.setTitle(request.getTitle());
         book.setIsbn(request.getIsbn());
         book.setPublicationYear(request.getPublicationYear());
+        book.setAuthor(resolveAuthor(request.getAuthorId()));
+        book.setCategories(resolveCategories(request.getCategoryIds()));
         return bookMapper.toResponse(book);
     }
 
@@ -60,6 +72,21 @@ public class BookServiceImpl implements BookService {
 
     private Book findBookOrThrow(Long id) {
         return bookRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Book bulunamadi, id=" + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Book bulunamadi, id=" + id));
+    }
+
+    private Author resolveAuthor(Long authorId) {
+        if (authorId == null) {
+            return null;
+        }
+        return authorRepository.findById(authorId)
+                .orElseThrow(() -> new ResourceNotFoundException("Author bulunamadi, id=" + authorId));
+    }
+
+    private Set<Category> resolveCategories(Set<Long> categoryIds) {
+        if (categoryIds == null || categoryIds.isEmpty()) {
+            return new HashSet<>();
+        }
+        return new HashSet<>(categoryRepository.findAllById(categoryIds));
     }
 }
