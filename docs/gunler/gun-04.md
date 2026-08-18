@@ -35,6 +35,20 @@
   çıktı beklenen dört bloğu (Singleton/Factory+Observer/Strategy) sorunsuz
   üretti.
 
+## Kalıpların karşılaştırılması
+
+| Kalıp | Kategori | Çözdüğü problem | Ne zaman kullanılır |
+|---|---|---|---|
+| **Singleton** | Yaratımsal (Creational) | Bir sınıftan uygulama boyunca tek örnek olmasını garanti etmek | Paylaşılan config, cache, connection pool gibi tek olması gereken kaynaklar |
+| **Factory** | Yaratımsal (Creational) | Hangi somut sınıfın üretileceğine çağıran kodun karar vermemesi | Çalışma zamanında değişen tip seçimi (bildirim kanalı, ödeme yöntemi gibi) |
+| **Observer** | Davranışsal (Behavioral) | Bir nesnedeki değişikliği, ona bağlı birden çok nesneye otomatik yaymak | Event/bildirim sistemleri, bir işlemin birden çok yan etkisi olduğunda |
+| **Strategy** | Davranışsal (Behavioral) | Bir algoritmanın farklı varyantlarını `if/else` yazmadan değiştirilebilir kılmak | Aynı işin birden fazla geçerli hesaplama/karar yolu olduğunda |
+
+En belirgin fark: Singleton ve Factory **nesne yaratmakla** ilgili (kaç tane,
+hangi tip); Observer ve Strategy **nesnelerin nasıl davrandığıyla/etkileştiğiyle**
+ilgili. Projede de bu ikisi bir arada çalıştı: `NotificationFactory`
+(yaratımsal) ürettiği `Notifier`'ı `Member`'a (observer, davranışsal) verdi.
+
 ## Karşılaşılan sorunlar ve çözümleri
 
 1. **`exec-maven-plugin` versiyon uyuşmazlığı riski.** Plan sırasında güncel
