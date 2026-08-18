@@ -1,6 +1,6 @@
 # Gün 1 — Proje İskeleti ve Tek Entity Üzerinde CRUD
 
-**Tarih:** 2026-08-17
+**Tarih:** 2026-07-06
 **Plan referansı:** [`staj_defteri_plani.md`](../../staj_defteri_plani.md) — Gün 1-2
 **Detaylı plan:** [`docs/plans/2026-08-17-gun-1-2-crud-servisi.md`](../plans/2026-08-17-gun-1-2-crud-servisi.md)
 
